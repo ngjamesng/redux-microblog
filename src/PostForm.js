@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 const INITIAL_STATE = {
   title: "",
@@ -7,8 +8,8 @@ const INITIAL_STATE = {
   body: ""
 }
 
-function PostForm({ postInfo = INITIAL_STATE }) {
-
+function PostForm({ postInfo = INITIAL_STATE, handleForm }) {
+  const history = useHistory();
   const [formData, setFormData] = useState(postInfo);
 
   const handleChange = (evt) => {
@@ -18,8 +19,8 @@ function PostForm({ postInfo = INITIAL_STATE }) {
 
 const handleSubmit = evt => {
   evt.preventDefault();
-  console.log("FORM DATA>>>", formData)
-  return;
+  handleForm(formData);
+  history.push('/');
 }
 
   return (
