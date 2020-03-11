@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button, Card, Badge } from "react-bootstrap";
 
-function CommentList({ comments=[], addComment, postId }) {
-  const [formData, setFormData] = useState({text: ""});
+function CommentList({ comments=[], addComment, postId, removeComment }) {
+  const INITIAL_STATE = {text: ""}
+  const [formData, setFormData] = useState(INITIAL_STATE);
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -11,7 +12,11 @@ function CommentList({ comments=[], addComment, postId }) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    addComment(postId, formData);
+    addComment(postId, formData.text);
+    setFormData(INITIAL_STATE);
+  }
+  const handleDelete = (commentId) =>{
+    removeComment(postId, commentId);
   }
 
   return (
@@ -20,7 +25,9 @@ function CommentList({ comments=[], addComment, postId }) {
       {comments.map(comment =>
         <Card key={comment.id}>
           <Card.Body>
-            <Card.Text><Button variant="danger">X</Button>{comment.text}</Card.Text>
+            <Card.Text>
+              <Badge onClick={()=>handleDelete(comment.id)} variant="danger">X</Badge>{comment.text}
+            </Card.Text>
           </Card.Body>
         </Card>)}
       <Form onSubmit={handleSubmit}>
@@ -33,7 +40,7 @@ function CommentList({ comments=[], addComment, postId }) {
             onChange={handleChange}
           />
         </Form.Group>
-        <Button>Add</Button>
+        <Button type="submit">Add</Button>
       </Form>
     </section>
 

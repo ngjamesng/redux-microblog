@@ -1,0 +1,8 @@
+export const
+  ADD_POST       = "ADD_POST",
+  GET_POST       = "GET_POST",
+  EDIT_POST      = "EDIT_POST",
+  DELETE_POST    = "DELETE_POST",
+
+  ADD_COMMENT    = "ADD_COMMENT",
+  DELETE_COMMENT = "DELETE_COMMENT";

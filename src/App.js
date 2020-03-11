@@ -10,7 +10,6 @@ import { v4 as uuid } from 'uuid';
 function App() {
   let history = useHistory();
   const [posts, setPosts] = useState({ firstid: { title: "test", description: "testdesc", body: "testbody", comments: [] } });
-
   const addPost = newPost => {
     setPosts(prevPosts => ({
       ...prevPosts, [uuid()]: { ...newPost, comments: [] }
@@ -60,6 +59,17 @@ function App() {
     }))
   }
 
+  const removeComment = (postId, commentId) => {
+    setPosts(prevPosts => ({
+      ...prevPosts, 
+      [postId]:
+      {
+        ...prevPosts[postId],
+        comments: prevPosts[postId].comments.filter(comment=> comment.id !==commentId)
+      }
+    }))
+  }
+
   return (
     <div className="App">
 
@@ -71,7 +81,9 @@ function App() {
           getPost={getPostbyId}
           deletePost={deletePost}
           editPost={editPost} 
-          addComment={addComment}/>
+          addComment={addComment}
+          removeComment={removeComment}
+          />
         </Route>
         {/* <Route> <Redirect to="/" /></Route> */}
       </Switch>

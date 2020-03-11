@@ -6,7 +6,7 @@ import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 
 
-function PostDetails({ getPost, deletePost, editPost, addComment }) {
+function PostDetails({ getPost, deletePost, editPost, addComment, removeComment }) {
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
   
@@ -15,7 +15,7 @@ function PostDetails({ getPost, deletePost, editPost, addComment }) {
     return <Redirect to="/" />
   }
   
-  const { title, description, body } = getPost(id);
+  const { title, description, body, comments } = getPost(id);
   
   
   const handleDelete = () => {
@@ -43,7 +43,12 @@ function PostDetails({ getPost, deletePost, editPost, addComment }) {
             <Button variant="danger" onClick={handleDelete}>Delete</Button>
           </Card.Body>
         </Card>
-        <CommentList addComment={addComment} postId={id}/>
+        <CommentList 
+          addComment={addComment} 
+          postId={id} 
+          comments={comments}
+          removeComment={removeComment}
+        />
       </section>
       : <PostForm postInfo={{ title, description, body }} handleForm={handleEdit} handleCancel={toggleEdit} />
   );
