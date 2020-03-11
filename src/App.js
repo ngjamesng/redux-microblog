@@ -1,24 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
+import Navbar from "./Navbar";
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
+import PostForm from "./PostForm";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Navbar />
+        <Switch>
+          <Route exact path="/"><h1>HOME</h1></Route>
+          <Route exact path="/new"><PostForm /></Route>
+          <Route exact path="/:id">blog post</Route>
+          {/* <Route> <Redirect to="/" /></Route> */}
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
