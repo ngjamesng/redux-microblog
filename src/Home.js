@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { CardGroup } from "react-bootstrap";
 import PostCard from './PostCard';
 
@@ -9,7 +9,7 @@ function Home({ posts }) {
     const { title, description } = posts[id];
     postList.push(<PostCard 
       key={id} 
-      d={id} 
+      id={id} 
       title={title} 
       description={description}
     />);

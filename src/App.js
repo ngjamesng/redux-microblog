@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route} from 'react-router-dom';
 import './App.css';
 import PostForm from "./PostForm";
 import Home from "./Home";
+import PostDetails from "./PostDetails";
 import { v4 as uuid } from 'uuid';
 
 function App() {
@@ -15,6 +16,10 @@ function App() {
     }))
   }
 
+  const getPostbyId = id => {
+    return posts[id];
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -22,7 +27,7 @@ function App() {
         <Switch>
           <Route exact path="/"><Home posts={posts}/></Route>
           <Route exact path="/new"><PostForm handleForm={addPost}/></Route>
-          <Route exact path="/:id">blog post</Route>
+          <Route exact path="/:id"><PostDetails getPost={getPostbyId} /></Route>
           {/* <Route> <Redirect to="/" /></Route> */}
         </Switch>
       </BrowserRouter>
