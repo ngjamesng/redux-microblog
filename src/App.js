@@ -9,12 +9,11 @@ import { v4 as uuid } from 'uuid';
 
 function App() {
   let history = useHistory();
-  console.log("HISTORY>>>", history)
-  const [posts, setPosts] = useState({ firstid: { title: "test", description: "testdesc", body: "testbody" } });
+  const [posts, setPosts] = useState({ firstid: { title: "test", description: "testdesc", body: "testbody", comments: [] } });
 
   const addPost = newPost => {
     setPosts(prevPosts => ({
-      ...prevPosts, [uuid()]: newPost
+      ...prevPosts, [uuid()]: { ...newPost, comments: [] }
     }))
   }
 
@@ -43,24 +42,39 @@ function App() {
     })
   }
 
-  const goHome = ()=>{
+  const goHome = () => {
     history.push("/");
+  }
+
+  const addComment = (postId, text) => {
+    setPosts(prevPosts => ({
+      ...prevPosts, 
+      [postId]:
+      {
+        ...prevPosts[postId],
+        comments: [
+          ...prevPosts[postId].comments, 
+          { id: uuid(), text }
+        ]
+      }
+    }))
   }
 
   return (
     <div className="App">
-      
-        <Navbar />
-        <Switch>
-          <Route exact path="/"><Home posts={posts} /></Route>
-          <Route exact path="/new"><PostForm handleForm={addPost} handleCancel={goHome}/></Route>
-          <Route exact path="/:id"><PostDetails 
-            getPost={getPostbyId} 
-            deletePost={deletePost} 
-            editPost={editPost} />
-          </Route>
-          {/* <Route> <Redirect to="/" /></Route> */}
-        </Switch>
+
+      <Navbar />
+      <Switch>
+        <Route exact path="/"><Home posts={posts} /></Route>
+        <Route exact path="/new"><PostForm handleForm={addPost} handleCancel={goHome} /></Route>
+        <Route exact path="/:id"><PostDetails
+          getPost={getPostbyId}
+          deletePost={deletePost}
+          editPost={editPost} 
+          addComment={addComment}/>
+        </Route>
+        {/* <Route> <Redirect to="/" /></Route> */}
+      </Switch>
     </div>
   );
 }
