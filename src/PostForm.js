@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   body: ""
 }
 
-function PostForm({ postInfo = INITIAL_STATE, handleForm }) {
+function PostForm({ postInfo = INITIAL_STATE, handleForm, handleCancel }) {
   const history = useHistory();
   const [formData, setFormData] = useState(postInfo);
 
@@ -17,11 +17,11 @@ function PostForm({ postInfo = INITIAL_STATE, handleForm }) {
     setFormData({ ...formData, [name]: value });
   }
 
-const handleSubmit = evt => {
-  evt.preventDefault();
-  handleForm(formData);
-  history.push('/');
-}
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    handleForm(formData);
+    history.push('/');
+  }
 
   return (
     <Form className="container" onSubmit={handleSubmit}>
@@ -59,7 +59,7 @@ const handleSubmit = evt => {
       <Button variant="primary" type="submit">
         Submit
       </Button>
-      <Button variant="secondary">
+      <Button variant="secondary" onClick={handleCancel}>
         Cancel
       </Button>
     </Form>
