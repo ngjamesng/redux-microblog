@@ -5,7 +5,7 @@ import { useParams, useHistory, Redirect } from 'react-router-dom';
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import { useSelector, useDispatch } from "react-redux";
-import { editPost, deletePost, MicroblogAPI } from "./actions";
+import { deletePost, MicroblogAPI } from "./actions";
 
 
 function PostDetails() {
@@ -13,15 +13,15 @@ function PostDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const { id } = useParams();
-  
+
   useEffect(() => {
     dispatch(MicroblogAPI.getPostDetails(id));
   }, [dispatch])
-  
+
   const postDetails = useSelector(st => st.postDetails[id]);
 
   if (!postDetails) return <h1>...Loading</h1>
-  
+
   const { title, description, body, comments } = postDetails;
   // if (!title) return <Redirect to="/" />
 
@@ -33,7 +33,9 @@ function PostDetails() {
 
   const toggleEdit = () => setIsEditing(isEditing => !isEditing);
 
-  const handleEdit = (formData) => dispatch(editPost(id, formData));
+  const handleEdit = (formData) => {
+    dispatch(MicroblogAPI.editPost(id, formData));
+  }
 
   const cardJSX =
     <Card className="container">
@@ -46,13 +48,14 @@ function PostDetails() {
       </Card.Body>
     </Card>
 
-  const postFormJSX =
-    <PostForm
-      postInfo={{ title, description, body }}
-      handleForm={handleEdit}
-      handleCancel={toggleEdit}
-    />
-    
+  // const postFormJSX =
+  //   <PostForm
+  //     postInfo={{ title, description, body }}
+  //     handleForm={handleEdit}
+  //     handleCancel={toggleEdit}
+  //   />
+
+  // console.log({ postFormJSX })
 
   return (
     !isEditing
@@ -60,7 +63,12 @@ function PostDetails() {
         {cardJSX}
         <CommentList postId={id} comments={comments} />
       </section>
-      : { postFormJSX }
+      :
+      <PostForm
+        postInfo={{ title, description, body }}
+        handleForm={handleEdit}
+        handleCancel={toggleEdit}
+      />
   );
 }
 export default PostDetails;

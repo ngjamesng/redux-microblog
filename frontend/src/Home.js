@@ -5,20 +5,7 @@ import { useSelector } from "react-redux";
 
 function Home() {
   const posts = useSelector(st => st.posts);
-
-  // const postList = [];
-
-  // for (let id of posts) {
-    //   const { title, description } = posts[id];
-    //   postList.push(<PostCard 
-    //     key={id} 
-    //     id={id} 
-    //     title={title} 
-    //     description={description}
-    //   />);
-    // }
-
-
+console.log({posts});
 
     return (
       <CardGroup className="Home container">

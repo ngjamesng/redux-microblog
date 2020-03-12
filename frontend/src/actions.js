@@ -84,4 +84,11 @@ export class MicroblogAPI {
       dispatch(addPost(res.data));
     }
   }
+
+  static editPost(id, newData){
+    return async function (dispatch){
+      let res = await axios.put(`${BASE_URL}api/posts/${id}`, newData)
+      dispatch(editPost(res.data));
+    }
+  }
 }

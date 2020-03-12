@@ -27,10 +27,11 @@ function rootReducer(state = INITIAL_STATE, action) {
     case EDIT_POST:
       return {
         ...state,
-        posts: {
-          ...state.posts,
-          [action.payload.id]: action.payload.newData
-        }
+        posts: state.posts.map(p => p.id === action.payload.id
+          ? action.payload.newData
+          : p
+        )
+
       };
     case DELETE_POST:
       // spreading id, ...newPosts will make newPosts not have the extracted property.
