@@ -1,8 +1,10 @@
 import React from "react";
 import { CardGroup } from "react-bootstrap";
 import PostCard from './PostCard';
+import { useSelector } from "react-redux";
 
-function Home({ posts }) {
+function Home() {
+  const posts = useSelector(st=> st.posts);
 
   const postList = [];
   for (let id in posts) {

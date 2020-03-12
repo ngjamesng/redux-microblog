@@ -1,6 +1,5 @@
 export const
   ADD_POST       = "ADD_POST",
-  GET_POST       = "GET_POST",
   EDIT_POST      = "EDIT_POST",
   DELETE_POST    = "DELETE_POST",
 

@@ -4,31 +4,34 @@ import Button from "react-bootstrap/Button";
 import { useParams, useHistory, Redirect } from 'react-router-dom';
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
+import { useSelector, useDispatch } from "react-redux";
+import { editPost, deletePost } from "./actions";
 
 
-function PostDetails({ getPost, deletePost, editPost, addComment, removeComment }) {
+function PostDetails({
+  addComment,
+  removeComment }) {
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
-  
+  const dispatch = useDispatch();
   const { id } = useParams();
-  if (!getPost(id)) {
-    return <Redirect to="/" />
-  }
+
   
-  const { title, description, body, comments } = getPost(id);
-  
-  
+  const { title, description, body, comments } = useSelector(st => st.posts[id]);
+  if (!title) return <Redirect to="/" />
+
+
+
+
   const handleDelete = () => {
-    deletePost(id);
+    dispatch(deletePost(id));
     history.push("/");
   }
-  
+
   const toggleEdit = () => setIsEditing(isEditing => !isEditing);
-  
-  const handleEdit = (formData) => {
-    editPost(id, formData);
-  }
-  
+
+  const handleEdit = (formData) => dispatch(editPost(id, formData));
+
 
 
   return (
@@ -43,9 +46,9 @@ function PostDetails({ getPost, deletePost, editPost, addComment, removeComment 
             <Button variant="danger" onClick={handleDelete}>Delete</Button>
           </Card.Body>
         </Card>
-        <CommentList 
-          addComment={addComment} 
-          postId={id} 
+        <CommentList
+          addComment={addComment}
+          postId={id}
           comments={comments}
           removeComment={removeComment}
         />

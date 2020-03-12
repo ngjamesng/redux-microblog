@@ -1,33 +1,29 @@
 import {
   ADD_POST,
-  GET_POST,
   EDIT_POST,
   DELETE_POST,
   ADD_COMMENT,
   DELETE_COMMENT
 } from "./actionTypes";
 
-export function addPost() {
+export function addPost(newData) {
   return {
-    type: ADD_POST
+    type: ADD_POST,
+    payload: { newData }
   }
 }
 
-export function getPost() {
+export function editPost(id, newData) {
   return {
-    type: GET_POST
+    type: EDIT_POST,
+    payload: { id, newData }
   }
 }
 
-export function editPost() {
+export function deletePost(id) {
   return {
-    type: EDIT_POST
-  }
-}
-
-export function deletePost() {
-  return {
-    type: DELETE_POST
+    type: DELETE_POST,
+    payload: { id }
   }
 }
 
