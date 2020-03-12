@@ -6,6 +6,7 @@ import {
   ADD_COMMENT,
   DELETE_COMMENT
 } from "./actionTypes";
+
 const INITIAL_STATE = {
   posts: {
     firstid: {
@@ -51,21 +52,40 @@ function rootReducer(state = INITIAL_STATE, action) {
         }
       };
     case DELETE_POST:
-      // // spreading id, ...newPosts will make newPosts not have the extracted property.
-      // const { [id], ...newPosts } = prevPosts;
-      // //therefpre, newposts will not have the property based on the ID. 
-      // return newPosts;
-      let newPosts = { ...state.posts };
-      delete newPosts[action.payload.id];
-      return {
-        ...state, posts: newPosts
-      };
+      // spreading id, ...newPosts will make newPosts not have the extracted property.
+      const { [action.payload.id]: _id, ...newPosts } = state.posts;
+      //therefore, newposts will not have the property based on the ID. 
+      return { ...state, posts: newPosts };
     case ADD_COMMENT:
-      return;
+      //LoDash has library for deep copying that can simplify this
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.payload.postId]: {
+            ...state.posts[action.payload.postId],
+            comments: [
+              ...state.posts[action.payload.postId].comments,
+              { ...action.payload.newData, id: uuid() }
+            ]
+          }
+        }
+      };
     case DELETE_COMMENT:
-      return;
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.payload.postId]: {
+            ...state.posts[action.payload.postId],
+            comments: [
+              ...state.posts[action.payload.postId].comments
+                .filter(c => c.id !== action.payload.commentId)
+            ]
+          }
+        }
+      };
     default:
-      console.warn("no changes made!!!!!");
       return state;
   }
 }

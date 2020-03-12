@@ -27,15 +27,17 @@ export function deletePost(id) {
   }
 }
 
-export function addComment() {
+export function addComment(postId, newData) {
   return {
-    type: ADD_COMMENT
+    type: ADD_COMMENT,
+    payload: {postId, newData}
   }
 }
 
-export function deleteComment() {
+export function deleteComment(postId, commentId) {
   return {
-    type: DELETE_COMMENT
+    type: DELETE_COMMENT,
+    payload: {postId, commentId}
   }
 }
 

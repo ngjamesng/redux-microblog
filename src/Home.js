@@ -4,9 +4,10 @@ import PostCard from './PostCard';
 import { useSelector } from "react-redux";
 
 function Home() {
-  const posts = useSelector(st=> st.posts);
+  const posts = useSelector(st => st.posts);
 
   const postList = [];
+  
   for (let id in posts) {
     const { title, description } = posts[id];
     postList.push(<PostCard 

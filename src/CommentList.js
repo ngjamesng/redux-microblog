@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Card, Badge } from "react-bootstrap";
+import { addComment, deleteComment } from './actions';
+import { useDispatch} from 'react-redux';
 
-function CommentList({ comments=[], addComment, postId, removeComment }) {
-  const INITIAL_STATE = {text: ""}
+function CommentList({ comments, postId }) {
+  const INITIAL_STATE = { text: "" }
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState(INITIAL_STATE);
 
   const handleChange = (evt) => {
@@ -12,38 +15,43 @@ function CommentList({ comments=[], addComment, postId, removeComment }) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    addComment(postId, formData.text);
+    dispatch(addComment(postId, formData));
     setFormData(INITIAL_STATE);
   }
-  const handleDelete = (commentId) =>{
-    removeComment(postId, commentId);
+
+  const handleDelete = (commentId) => {
+    dispatch(deleteComment(postId, commentId));
   }
+
+  const cardJSX =
+    comments.map(comment =>
+      <Card key={comment.id}>
+        <Card.Body>
+          <Card.Text>
+            <Badge onClick={() => handleDelete(comment.id)} variant="danger">X</Badge>{comment.text}
+          </Card.Text>
+        </Card.Body>
+      </Card>);
+
+  const formJSX = <Form onSubmit={handleSubmit}>
+    <Form.Group >
+      <Form.Control
+        type="text"
+        name="text"
+        value={formData.text}
+        placeholder="New Comment"
+        onChange={handleChange}
+      />
+    </Form.Group>
+    <Button type="submit">Add</Button>
+  </Form>
 
   return (
     <section>
       <h1>CommentList</h1>
-      {comments.map(comment =>
-        <Card key={comment.id}>
-          <Card.Body>
-            <Card.Text>
-              <Badge onClick={()=>handleDelete(comment.id)} variant="danger">X</Badge>{comment.text}
-            </Card.Text>
-          </Card.Body>
-        </Card>)}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group >
-          <Form.Control
-            type="text"
-            name="text"
-            value={formData.text}
-            placeholder="New Comment"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Button type="submit">Add</Button>
-      </Form>
+      {cardJSX}
+      {formJSX}
     </section>
-
   )
 }
 
