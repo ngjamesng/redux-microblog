@@ -1,9 +1,11 @@
+import axios from "axios";
 import {
   ADD_POST,
   EDIT_POST,
   DELETE_POST,
   ADD_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  GET_POSTS,
 } from "./actionTypes";
 
 export function addPost(newData) {
@@ -41,3 +43,21 @@ export function deleteComment(postId, commentId) {
   }
 }
 
+function getPosts(posts){
+  return {
+    type: GET_POSTS,
+    payload: { posts }
+  }
+}
+
+
+
+export class MicroblogAPI {
+  static getPosts(){
+    const BASE_URL= process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
+    return async function(dispatch){
+      let res = await axios.get(`${BASE_URL}api/posts`);
+      dispatch(getPosts(res.data));
+    }
+  }
+}

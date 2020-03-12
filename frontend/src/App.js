@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from "./Navbar";
 import { Switch, Route, useHistory } from 'react-router-dom';
 import './App.css';
@@ -6,18 +6,21 @@ import PostForm from "./PostForm";
 import Home from "./Home";
 import PostDetails from "./PostDetails";
 import { useDispatch } from "react-redux";
-import { addPost } from "./actions";
+import { addPost, MicroblogAPI } from "./actions";
 
 function App() {
   let history = useHistory();
   let dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(MicroblogAPI.getPosts());
+  },[dispatch]);
 
   const goHome = () => {
     history.push("/");
   }
 
   const handleAddPost = (data) => dispatch(addPost(data));
-
   return (
     <div className="App">
       <Navbar />

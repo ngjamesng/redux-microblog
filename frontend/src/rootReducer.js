@@ -4,30 +4,12 @@ import {
   EDIT_POST,
   DELETE_POST,
   ADD_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  GET_POSTS,
 } from "./actionTypes";
 
 const INITIAL_STATE = {
-  posts: {
-    firstid: {
-      title: "test",
-      description: "testdesc",
-      body: "testbody",
-      comments: []
-    },
-    secondid: {
-      title: "test2",
-      description: "testdesc",
-      body: "testbody",
-      comments: []
-    },
-    thirdid: {
-      title: "test3",
-      description: "testdesc",
-      body: "testbody",
-      comments: []
-    },
-  }
+  posts:[]
 }
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -85,6 +67,8 @@ function rootReducer(state = INITIAL_STATE, action) {
           }
         }
       };
+    case GET_POSTS:
+      return { ...state, posts: action.payload.posts }
     default:
       return state;
   }
