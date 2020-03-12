@@ -6,10 +6,12 @@ import {
   ADD_COMMENT,
   DELETE_COMMENT,
   GET_POSTS,
+  GET_POST_DETAILS,
 } from "./actionTypes";
 
 const INITIAL_STATE = {
-  posts:[]
+  posts: [],
+  postDetails: {},
 }
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -69,6 +71,16 @@ function rootReducer(state = INITIAL_STATE, action) {
       };
     case GET_POSTS:
       return { ...state, posts: action.payload.posts }
+    case GET_POST_DETAILS:
+      let { id, ...newDetail } = action.payload.postDetails;
+      console.log("JHLKJHLKJ", {id, newDetail})
+      return {
+        ...state,
+        postDetails: {
+          ...state.postDetails,
+          [id]: newDetail
+        }
+      }
     default:
       return state;
   }

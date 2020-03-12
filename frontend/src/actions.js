@@ -6,6 +6,7 @@ import {
   ADD_COMMENT,
   DELETE_COMMENT,
   GET_POSTS,
+  GET_POST_DETAILS,
 } from "./actionTypes";
 
 export function addPost(newData) {
@@ -50,14 +51,27 @@ function getPosts(posts){
   }
 }
 
+function getPostDetails(postDetails){
+  return {
+    type: GET_POST_DETAILS,
+    payload: { postDetails }
+  }
+}
 
+export const BASE_URL= process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
 
 export class MicroblogAPI {
   static getPosts(){
-    const BASE_URL= process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
     return async function(dispatch){
       let res = await axios.get(`${BASE_URL}api/posts`);
       dispatch(getPosts(res.data));
+    }
+  }
+
+  static getPostDetails(postId){
+    return async function(dispatch){
+      let res = await axios.get(`${BASE_URL}api/posts/${postId}`);
+      dispatch(getPostDetails(res.data));
     }
   }
 }

@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useParams, useHistory, Redirect } from 'react-router-dom';
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import { useSelector, useDispatch } from "react-redux";
-import { editPost, deletePost } from "./actions";
+import { editPost, deletePost, MicroblogAPI } from "./actions";
 
 
 function PostDetails() {
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [postDetails, setPostDetails] = useState({});
   const dispatch = useDispatch();
   const { id } = useParams();
+  const postDetails = useSelector(st => st.postDetails[id])
+  
+  useEffect(() => {
+    dispatch(MicroblogAPI.getPostDetails(id));
+    setIsLoading(false);
+  }, [dispatch])
+  
+  if (isLoading) return <h1>...Loading</h1>
+  
+  console.log({postDetails})
+  const { title, description, body, comments } = postDetails;
 
-  const { title, description, body, comments } = useSelector(st => st.posts[id]);
   if (!title) return <Redirect to="/" />
 
   const handleDelete = () => {
@@ -43,8 +55,7 @@ function PostDetails() {
       handleForm={handleEdit}
       handleCancel={toggleEdit}
     />
-
-
+    
 
   return (
     !isEditing
@@ -52,7 +63,7 @@ function PostDetails() {
         {cardJSX}
         <CommentList postId={id} comments={comments} />
       </section>
-      : {postFormJSX}
+      : { postFormJSX }
   );
 }
 export default PostDetails;
