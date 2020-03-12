@@ -11,23 +11,20 @@ import { editPost, deletePost, MicroblogAPI } from "./actions";
 function PostDetails() {
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [postDetails, setPostDetails] = useState({});
   const dispatch = useDispatch();
   const { id } = useParams();
-  const postDetails = useSelector(st => st.postDetails[id])
   
   useEffect(() => {
     dispatch(MicroblogAPI.getPostDetails(id));
-    setIsLoading(false);
   }, [dispatch])
   
-  if (isLoading) return <h1>...Loading</h1>
-  
-  console.log({postDetails})
-  const { title, description, body, comments } = postDetails;
+  const postDetails = useSelector(st => st.postDetails[id]);
 
-  if (!title) return <Redirect to="/" />
+  if (!postDetails) return <h1>...Loading</h1>
+  
+  const { title, description, body, comments } = postDetails;
+  // if (!title) return <Redirect to="/" />
+
 
   const handleDelete = () => {
     dispatch(deletePost(id));

@@ -33,45 +33,55 @@ export function deletePost(id) {
 export function addComment(postId, newData) {
   return {
     type: ADD_COMMENT,
-    payload: {postId, newData}
+    payload: { postId, newData }
   }
 }
 
 export function deleteComment(postId, commentId) {
   return {
     type: DELETE_COMMENT,
-    payload: {postId, commentId}
+    payload: { postId, commentId }
   }
 }
 
-function getPosts(posts){
+function getPosts(posts) {
   return {
     type: GET_POSTS,
     payload: { posts }
   }
 }
 
-function getPostDetails(postDetails){
+function getPostDetails(postDetails) {
   return {
     type: GET_POST_DETAILS,
     payload: { postDetails }
   }
 }
 
-export const BASE_URL= process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
+
+
+export const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
 
 export class MicroblogAPI {
-  static getPosts(){
-    return async function(dispatch){
+  static getPosts() {
+    return async function (dispatch) {
       let res = await axios.get(`${BASE_URL}api/posts`);
       dispatch(getPosts(res.data));
     }
   }
 
-  static getPostDetails(postId){
-    return async function(dispatch){
+  static getPostDetails(postId) {
+    return async function (dispatch) {
       let res = await axios.get(`${BASE_URL}api/posts/${postId}`);
       dispatch(getPostDetails(res.data));
+    }
+  }
+
+  static createPost(newPost) {
+    //new post should come in as {title:"", descrption:"", body:""}
+    return async function (dispatch) {
+      let res = await axios.post(`${BASE_URL}api/posts`, newPost)
+      dispatch(addPost(res.data));
     }
   }
 }

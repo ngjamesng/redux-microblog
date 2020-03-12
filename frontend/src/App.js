@@ -6,7 +6,7 @@ import PostForm from "./PostForm";
 import Home from "./Home";
 import PostDetails from "./PostDetails";
 import { useDispatch } from "react-redux";
-import { addPost, MicroblogAPI } from "./actions";
+import { MicroblogAPI } from "./actions";
 
 function App() {
   let history = useHistory();
@@ -20,7 +20,7 @@ function App() {
     history.push("/");
   }
 
-  const handleAddPost = (data) => dispatch(addPost(data));
+  const handleAddPost = (data) => dispatch(MicroblogAPI.createPost(data));
   return (
     <div className="App">
       <Navbar />

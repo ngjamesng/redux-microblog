@@ -20,12 +20,9 @@ function rootReducer(state = INITIAL_STATE, action) {
     case ADD_POST:
       return {
         ...state,
-        posts: {
-          ...state.posts,
-          [uuid()]: {
-            ...action.payload.newData, comments: []
-          }
-        }
+        posts: [
+          ...state.posts, action.payload.newData
+        ]
       }
     case EDIT_POST:
       return {
@@ -73,7 +70,7 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, posts: action.payload.posts }
     case GET_POST_DETAILS:
       let { id, ...newDetail } = action.payload.postDetails;
-      console.log("JHLKJHLKJ", {id, newDetail})
+      console.log("JHLKJHLKJ", { id, newDetail })
       return {
         ...state,
         postDetails: {
