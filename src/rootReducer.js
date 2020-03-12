@@ -34,15 +34,18 @@ function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_POST:
       return {
-        ...state, posts:
-        {
+        ...state,
+        posts: {
           ...state.posts,
-          [uuid()]: { ...action.payload.newData, comments: [] }
+          [uuid()]: {
+            ...action.payload.newData, comments: []
+          }
         }
       }
     case EDIT_POST:
       return {
-        ...state, posts: {
+        ...state,
+        posts: {
           ...state.posts,
           [action.payload.id]: action.payload.newData
         }
