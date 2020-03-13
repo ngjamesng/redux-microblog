@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Card, Badge } from "react-bootstrap";
-import { addComment, deleteComment } from './actions';
+import { MicroblogAPI } from './actions';
 import { useDispatch} from 'react-redux';
 
 function CommentList({ comments, postId }) {
@@ -15,12 +15,12 @@ function CommentList({ comments, postId }) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    dispatch(addComment(postId, formData));
+    dispatch(MicroblogAPI.addComment(postId, formData));
     setFormData(INITIAL_STATE);
   }
 
   const handleDelete = (commentId) => {
-    dispatch(deleteComment(postId, commentId));
+    dispatch(MicroblogAPI.deleteComment(postId, commentId));
   }
 
   const cardJSX =

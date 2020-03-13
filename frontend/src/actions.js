@@ -16,10 +16,10 @@ export function addPost(newData) {
   }
 }
 
-export function editPost(newData) {
+export function editPost(id, newData) {
   return {
     type: EDIT_POST,
-    payload: newData
+    payload: { id, newData }
   }
 }
 
@@ -58,6 +58,8 @@ function getPostDetails(postDetails) {
   }
 }
 
+
+
 export const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
 
 export class MicroblogAPI {
@@ -83,17 +85,32 @@ export class MicroblogAPI {
     }
   }
 
-  static editPost(id, newData){
-    return async function (dispatch){
+  static editPost(id, newData) {
+    return async function (dispatch) {
       let res = await axios.put(`${BASE_URL}api/posts/${id}`, newData)
       dispatch(editPost(res.data));
     }
   }
 
-  static deletePost(id){
-    return async function (dispatch){
+  static deletePost(id) {
+    return async function (dispatch) {
       let res = await axios.delete(`${BASE_URL}api/posts/${id}`)
       dispatch(deletePost(id));
+    }
+  }
+
+  static addComment(postId, newData) {
+    return async function (dispatch) {
+      let res = await axios.post(`${BASE_URL}api/posts/${postId}/comments/`, newData)
+      //res.data === {id, text }
+      dispatch(addComment(postId, res.data))
+    }
+  }
+  static deleteComment(postId, commentId) {
+    console.log({postId, commentId})
+    return async function (dispatch) {
+      let res = await axios.delete(`${BASE_URL}api/posts/${postId}/comments/${commentId}`);
+      res.data.message === "deleted" && dispatch(deleteComment(postId, commentId));
     }
   }
 }

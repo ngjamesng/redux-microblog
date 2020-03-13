@@ -49,10 +49,10 @@ function rootReducer(state = INITIAL_STATE, action) {
         ),
         postDetails: {
           ...state.postDetails,
-          [action.payload.id]: 
+          [action.payload.id]:
           {
             //destructure postData to preserve any data not in formData ie comments
-            ...state.postDetails[action.payload.id], 
+            ...state.postDetails[action.payload.id],
             //action.payload only overrides everything except the comments
             ...action.payload
           }
@@ -72,13 +72,13 @@ function rootReducer(state = INITIAL_STATE, action) {
       //LoDash has library for deep copying that can simplify this
       return {
         ...state,
-        posts: {
-          ...state.posts,
+        postDetails: {
+          ...state.postDetails,
           [action.payload.postId]: {
-            ...state.posts[action.payload.postId],
+            ...state.postDetails[action.payload.postId],
             comments: [
-              ...state.posts[action.payload.postId].comments,
-              { ...action.payload.newData, id: uuid() }
+              ...state.postDetails[action.payload.postId].comments,
+              action.payload.newData
             ]
           }
         }
@@ -86,14 +86,12 @@ function rootReducer(state = INITIAL_STATE, action) {
     case DELETE_COMMENT:
       return {
         ...state,
-        posts: {
-          ...state.posts,
+        postDetails: {
+          ...state.postDetails,
           [action.payload.postId]: {
-            ...state.posts[action.payload.postId],
-            comments: [
-              ...state.posts[action.payload.postId].comments
-                .filter(c => c.id !== action.payload.commentId)
-            ]
+            ...state.postDetails[action.payload.postId],
+            comments: state.postDetails[action.payload.postId]
+              .comments.filter(c => c.id !== action.payload.commentId)
           }
         }
       };
