@@ -91,4 +91,11 @@ export class MicroblogAPI {
       dispatch(editPost(res.data));
     }
   }
+
+  static deletePost(id){
+    return async function (dispatch){
+      let res = await axios.delete(`${BASE_URL}api/posts/${id}`)
+      dispatch(deletePost(id));
+    }
+  }
 }

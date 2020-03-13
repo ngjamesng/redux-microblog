@@ -34,10 +34,12 @@ function rootReducer(state = INITIAL_STATE, action) {
 
       };
     case DELETE_POST:
-      // spreading id, ...newPosts will make newPosts not have the extracted property.
-      const { [action.payload.id]: _id, ...newPosts } = state.posts;
-      //therefore, newposts will not have the property based on the ID. 
-      return { ...state, posts: newPosts };
+      // // spreading id, ...newPosts will make newPosts not have the extracted property.
+      // const { [action.payload.id]: _id, ...newPosts } = state.posts;
+      // //therefore, newposts will not have the property based on the ID. 
+
+      console.log("ACTIONPAYLOADID", action.payload.id)
+      return { ...state, posts: state.posts.filter(p=>(p.id!==action.payload.id))};
     case ADD_COMMENT:
       //LoDash has library for deep copying that can simplify this
       return {

@@ -5,7 +5,7 @@ import { useParams, useHistory, Redirect } from 'react-router-dom';
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import { useSelector, useDispatch } from "react-redux";
-import { deletePost, MicroblogAPI } from "./actions";
+import { MicroblogAPI } from "./actions";
 
 
 function PostDetails() {
@@ -27,7 +27,7 @@ function PostDetails() {
 
 
   const handleDelete = () => {
-    dispatch(deletePost(id));
+    dispatch(MicroblogAPI.deletePost(id));
     history.push("/");
   }
 
@@ -47,15 +47,6 @@ function PostDetails() {
         <Button variant="danger" onClick={handleDelete}>Delete</Button>
       </Card.Body>
     </Card>
-
-  // const postFormJSX =
-  //   <PostForm
-  //     postInfo={{ title, description, body }}
-  //     handleForm={handleEdit}
-  //     handleCancel={toggleEdit}
-  //   />
-
-  // console.log({ postFormJSX })
 
   return (
     !isEditing
