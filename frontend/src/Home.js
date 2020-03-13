@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function Home() {
   const posts = useSelector(st => st.posts);
-console.log({posts});
+  console.log({posts});
 
     return (
       <CardGroup className="Home container">
