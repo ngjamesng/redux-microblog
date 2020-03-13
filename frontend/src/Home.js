@@ -13,6 +13,7 @@ function Home() {
           id={p.id}
           title={p.title}
           description={p.description}
+          votes={p.votes}
         />)}
       </CardGroup>
     );

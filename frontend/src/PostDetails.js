@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
 import { useParams, useHistory, Redirect } from 'react-router-dom';
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
@@ -22,7 +23,7 @@ function PostDetails() {
 
   if (!postDetails) return <h1>...Loading</h1>
 
-  const { title, description, body, comments } = postDetails;
+  const { title, description, body, comments, votes } = postDetails;
   // if (!title) return <Redirect to="/" />
 
 
@@ -45,6 +46,13 @@ function PostDetails() {
         <Card.Text>{body}</Card.Text>
         <Button onClick={toggleEdit}>Edit</Button>
         <Button variant="danger" onClick={handleDelete}>Delete</Button>
+        <Card.Footer>
+          <Card.Text>
+          Votes:{votes}
+          <Badge variant="danger">-</Badge>
+            <Badge variant="success">+</Badge>
+          </Card.Text>
+        </Card.Footer>
       </Card.Body>
     </Card>
 
