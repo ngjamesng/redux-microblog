@@ -13,12 +13,12 @@ function PostDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const { id } = useParams();
+  const postDetails = useSelector(st => st.postDetails[id]);
 
   useEffect(() => {
-    dispatch(MicroblogAPI.getPostDetails(id));
-  }, [dispatch])
+    !postDetails && dispatch(MicroblogAPI.getPostDetails(id));
+  }, [dispatch, postDetails, id])
 
-  const postDetails = useSelector(st => st.postDetails[id]);
 
   if (!postDetails) return <h1>...Loading</h1>
 

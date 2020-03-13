@@ -16,10 +16,10 @@ export function addPost(newData) {
   }
 }
 
-export function editPost(id, newData) {
+export function editPost(newData) {
   return {
     type: EDIT_POST,
-    payload: { id, newData }
+    payload: newData
   }
 }
 
@@ -57,8 +57,6 @@ function getPostDetails(postDetails) {
     payload: { postDetails }
   }
 }
-
-
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000/"
 

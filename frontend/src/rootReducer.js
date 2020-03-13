@@ -9,6 +9,22 @@ import {
   GET_POST_DETAILS,
 } from "./actionTypes";
 
+
+/**
+ * 
+ * posts = [{id, title, description, body}]
+ * postDetails= {
+ *  [id]: {
+ *        title, 
+ *        description, 
+ *        body, 
+ *        comments: 
+ *          [
+              {id, text}, ...
+            ]
+          }, ...
+  }
+ */
 const INITIAL_STATE = {
   posts: [],
   postDetails: {},
@@ -28,15 +44,30 @@ function rootReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         posts: state.posts.map(p => p.id === action.payload.id
-          ? action.payload.newData
+          ? action.payload
           : p
-        )
+        ),
+        postDetails: {
+          ...state.postDetails,
+          [action.payload.id]: 
+          {
+            //destructure postData to preserve any data not in formData ie comments
+            ...state.postDetails[action.payload.id], 
+            //action.payload only overrides everything except the comments
+            ...action.payload
+          }
+        }
       };
     case DELETE_POST:
       // // spreading id, ...newPosts will make newPosts not have the extracted property.
       // const { [action.payload.id]: _id, ...newPosts } = state.posts;
       // //therefore, newposts will not have the property based on the ID. 
-      return { ...state, posts: state.posts.filter(p => p.id !== +action.payload.id)};
+      const { [action.payload.id]: _id, ...newPostDetails } = state.postDetails;
+      return {
+        ...state,
+        posts: state.posts.filter(p => p.id !== +action.payload.id),
+        postDetails: newPostDetails
+      };
     case ADD_COMMENT:
       //LoDash has library for deep copying that can simplify this
       return {
