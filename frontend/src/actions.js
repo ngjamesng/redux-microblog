@@ -9,35 +9,35 @@ import {
   GET_POST_DETAILS,
 } from "./actionTypes";
 
-export function addPost(newData) {
+function addPost(newData) {
   return {
     type: ADD_POST,
     payload: { newData }
   }
 }
 
-export function editPost(id, newData) {
+function editPost(id, newData) {
   return {
     type: EDIT_POST,
     payload: { id, newData }
   }
 }
 
-export function deletePost(id) {
+function deletePost(id) {
   return {
     type: DELETE_POST,
     payload: { id }
   }
 }
 
-export function addComment(postId, newData) {
+function addComment(postId, newData) {
   return {
     type: ADD_COMMENT,
     payload: { postId, newData }
   }
 }
 
-export function deleteComment(postId, commentId) {
+function deleteComment(postId, commentId) {
   return {
     type: DELETE_COMMENT,
     payload: { postId, commentId }
